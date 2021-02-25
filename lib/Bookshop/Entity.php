@@ -1,8 +1,11 @@
 <?php 
 namespace Bookshop;
 
+interface IData {
+    public function getId() : int;
+}
 
-class Entity {
+class Entity extends BaseObject implements IData {
 
     private $id;
 
