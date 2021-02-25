@@ -7,6 +7,7 @@
 
 <?php 
     $book = new \Bookshop\Book(1, 1, 'Testbuch', 'testautor', 12.45);
+    $book->testVar();
     var_dump($book);
 ?>    
 
