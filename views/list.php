@@ -3,6 +3,8 @@
 use Data\DataManager;
 $categories = DataManager::getCategories();
 $categoryId = (int) ($_REQUEST['categoryId'] ?? null);
+$books = (isset($categoryId) && ($categoryId > 0)) ? DataManager::getBooksByCategory($categoryId) : null; 
+
 
 require_once('views/partials/header.php'); 
 ?>
@@ -21,6 +23,18 @@ require_once('views/partials/header.php');
     <?php } ?>
 </ul>
 
+<br />
 
+<?php if (isset($books)) { ?>
+    <?php if (sizeof($books) > 0) {
+        require('views/partials/booklist.php');
+    } 
+    else { ?>
+
+    <div class="alert alert-warning" role="alert">No books in this category</div>
+    <?php } // sizeofbooks > 0 ?>
+<?php } else { ?>
+    <div class="alert alert-info" role="alert">Please select a category</div>
+<?php } // isset($books) ?>
 
 <?php require_once('views/partials/footer.php'); ?>

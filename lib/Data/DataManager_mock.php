@@ -57,7 +57,13 @@ class DataManager implements IDataManager {
     }
 
     public static function getBooksByCategory(int $categoryId) : array {
-
+        $res = [];
+        foreach (self::getMockData('books') as $book) {
+            if ($book->getCategoryId() === $categoryId) {
+                $res[] = $book;
+            }
+        }
+        return $res;
     }
 
     public static function getUserById (int $userId) {
