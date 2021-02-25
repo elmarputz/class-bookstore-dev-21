@@ -51,9 +51,11 @@ class DataManager implements IDataManager {
     }
 
 
-    public static function getCategories() : array {
 
+    public static function getCategories() : array {
+        return self::getMockData('categories');
     }
+
     public static function getBooksByCategory(int $categoryId) : array {
 
     }
