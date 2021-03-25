@@ -1,4 +1,13 @@
-<?php require_once('views/partials/header.php'); ?>
+<?php 
+
+use Bookshop\ShoppingCart, Bookshop\Controller, Bookshop\Util, Bookshop\AuthenticationManager;
+
+$cartSize = ShoppingCart::size();
+
+$nameOnCard = $_REQUEST[Controller::CC_NAME] ?? null;
+$cardNumber = $_REQUEST[Controller::CC_NUMBER] ?? null;
+
+require_once('views/partials/header.php'); ?>
 
 <div class="page-header">
 		<h2>Checkout</h2>
@@ -6,7 +15,7 @@
 
 	<p>You have <span class="badge"><?php echo Util::escape($cartSize); ?></span> item<?php print $cartSize != 1 ? 's' : null;  ?> in your cart.</p>
 
-<?php if ($cartSize > 0): ?>
+<?php if ($cartSize > 0) : ?>
 
 	<?php if (AuthenticationManager::isAuthenticated()): ?>
 
@@ -38,6 +47,12 @@
 			</div>
 		</div>
 
+        <?php else: // not authenticated ?>
+            <p class="errors alert alert-info">Please log in</p>
+        <?php endif; ?>
 
+<?php else: // no items  ?>
+    <p class="errors alert alert-info">Please add some items to your cart</p>
+<?php endif; ?>
 
 <?php require_once('views/partials/footer.php'); ?>

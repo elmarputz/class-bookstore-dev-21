@@ -22,6 +22,10 @@ class ShoppingCart extends BaseObject {
         self::storeCart([]);
     }
 
+    public static function getAll() : array {
+        return self::getCart();
+    }
+
     public static function contains (int $bookId) : bool {
         $cart = self::getCart();
         return array_key_exists($bookId, $cart);

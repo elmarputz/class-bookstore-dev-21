@@ -13,6 +13,9 @@ class Controller extends BaseObject {
     const USER_PASSWORD = 'password';
     const ACTION_LOGIN = 'login';
     const ACTION_LOGOUT = 'logout';
+    const ACTION_ORDER = 'placeOrder';
+    const CC_NAME = 'nameOnCard';
+    const CC_NUMBER = 'cardNumber';
 
     private static $instance = false; 
 
@@ -69,6 +72,21 @@ class Controller extends BaseObject {
 
             }
 
+            case self::ACTION_ORDER : {
+                $user = AuthenticationManager::getAuthenticatedUser();
+                 if ($user == null) {
+                     $this->forwardRequest(['Not logged in']);
+                     break;
+                 }   
+
+                 if (!$this->processCheckout($_POST[self::CC_NAME], $_POST[self::CC_NUMBER])) {
+                    $this->forwardRequest(['Checkout failed']);
+
+                 }
+                 break;
+
+            }
+
             default : 
                 throw new \Exception('Unkown controller action: ' . $action);
                 break;
@@ -78,6 +96,39 @@ class Controller extends BaseObject {
         return true;
 
     
+    }
+
+    protected function processCheckout (string $nameOnCard = null, string $cardNumber = null) : bool {
+
+        $errors = [];
+
+        if ($nameOnCard == null || strlen($nameOnCard) == 0) {
+            $errors[] = 'Enter name on card';
+        }
+        if ($cardNumber == null || strlen($cardNumber) != 16 || !ctype_digit($cardNumber)) {
+            $errors[] = 'invalid number';
+        }
+
+        if (sizeof($errors) > 0) {
+            $this->forwardRequest($errors);
+            return false; 
+        }
+
+        if (ShoppingCart::size() == 0) {
+            $this->forwardRequest(['Shopping cart is empty']);
+            return false; 
+        }
+
+        $user = AuthenticationManager::getAuthenticatedUser();
+        $orderId = \Data\DataManager::createOrder($user->getId(), ShoppingCart::getAll(), $nameOnCard, $cardNumber);
+        if (!$orderId) {
+            $this->forwardRequest(['Couldn\'t create order']);
+            return false; 
+        }
+
+        ShoppingCart::clear();
+        Util::redirect('index.php?view=success&orderId=' . rawurlencode($orderId));
+
     }
 
 
