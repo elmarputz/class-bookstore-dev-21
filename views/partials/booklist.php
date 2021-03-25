@@ -20,7 +20,7 @@
     <tbody>
   <?php
   foreach ($books as $book):
-
+    $inCart = false;
     ?>
     <tr>
       <td><strong>
@@ -34,7 +34,7 @@
 		    <?php echo sprintf('%01.2f', Util::escape($book->getPrice())); ?>&nbsp;&euro;
       </td>
       <td class="add-remove">
-	      <?php /* if ($inCart): ?>
+	      <?php if ($inCart): ?>
             <form method="post" action="<?php echo Util::action
             (Bookshop\Controller::ACTION_REMOVE, array('bookId' => $book->getId())); ?>">
               <button type="submit" role="button" class="btn btn-default btn-xs btn-info">
@@ -48,7 +48,7 @@
                 <span class="glyphicon glyphicon-plus"></span>
               </button>
             </form>
-	      <?php endif; */ ?>
+	      <?php endif; ?>
       </td>
     </tr>
   <?php endforeach; ?>
