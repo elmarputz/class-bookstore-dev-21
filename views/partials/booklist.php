@@ -1,4 +1,4 @@
-<?php use Bookshop\Util; ?>
+<?php use Bookshop\Util, Bookshop\ShoppingCart; ?>
 
 <table class="table">
   <thead>
@@ -20,7 +20,7 @@
     <tbody>
   <?php
   foreach ($books as $book):
-    $inCart = false;
+    $inCart = ShoppingCart::contains($book->getId());
     ?>
     <tr>
       <td><strong>
