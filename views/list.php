@@ -6,6 +6,7 @@ $categoryId = (int) ($_REQUEST['categoryId'] ?? null);
 $books = (isset($categoryId) && ($categoryId > 0)) ? DataManager::getBooksByCategory($categoryId) : null; 
 
 
+
 require_once('views/partials/header.php'); 
 ?>
 
