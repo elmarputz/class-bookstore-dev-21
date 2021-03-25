@@ -66,12 +66,17 @@ class DataManager implements IDataManager {
         return $res;
     }
 
-    public static function getUserById (int $userId) {
-
+    public static function getUserById (int $userId) : ?User {
+      return array_key_exists($userId, self::getMockData('users')) ? self::getMockData('users')[$userId] : null;
     }
 
-    public static function getUserByUserName (string $userName) {
-
+    public static function getUserByUserName (string $userName) : ?User {
+      foreach (self::getMockData('users') as $user) {
+        if ($user->getUserName() === $userName) {
+          return $user;
+        }
+      }
+      return null;
     }
 
 

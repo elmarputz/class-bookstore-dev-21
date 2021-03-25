@@ -1,3 +1,15 @@
+<?php 
+use Bookshop\Util, Bookshop\ShoppingCart, Bookshop\AuthenticationManager;
+
+$user = AuthenticationManager::getAuthenticatedUser();
+$cartSize = ShoppingCart::size();
+if (isset($_GET['errors'])) {
+    $errors = unserialize(urldecode($_GET['errors']));
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,9 +50,9 @@
             <ul class="nav navbar-nav navbar-right login">
                 <li>
                     <a href="index.php?view=checkout">
-                       <span class="badge"><?php //  echo Util::escape($cartSize); ?></span> <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
+                       <span class="badge"><?php  echo Util::escape($cartSize); ?></span> <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
                 </li>
-                <?php /*
+
                 <li class="dropdown">
                     <?php if ($user == null): ?>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -67,7 +79,7 @@
                   </ul>
               <?php endif; ?>
                 </li>
-                */ ?>
+
             </ul> <!-- /. login -->
         </div><!--/.nav-collapse -->
     </div>

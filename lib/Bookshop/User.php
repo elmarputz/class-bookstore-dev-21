@@ -22,7 +22,7 @@ class User extends Entity {
         return $this->userName;
     }
 
-    public function passwordHash() : string {
+    public function getPasswordHash() : string {
         return $this->passwordHash;
     }
 
