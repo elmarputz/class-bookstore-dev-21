@@ -13,7 +13,7 @@ spl_autoload_register(function($class) {
 });
 
 
-$mode = 'mock';
+$mode = 'pdo';
 switch (mb_strtolower($mode)) {
 	case 'mysqli':
 		$class = 'mysqli';
